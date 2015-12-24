@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="MyApp">
+<head>
+  <title>Time Control</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+  <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.min.js"></script>
+  <script src="./js/controller.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/login.css">
+</head>
+<body ng-controller="MainController as control" style="padding-top: 70px;">
+  <!-- Login screen-->
+  <div class="container">
+
+    <uib-alert type="danger" ng-show="control.failed_login" close="control.failed_login=false">Login failed!</uib-alert>
+    <uib-alert type="success" ng-show="control.suceed_login" close="control.suceed_login=false">Login succeed!</uib-alert>
+    <form class="form-login" ng-submit="control.login()">
+      <h2 class="form-login-heading">Time Login</h2>
+      <label for="inputUsername" class="sr-only">Username</label>
+      <input type="username" id="inputUsername" class="form-control" placeholder="Username" ng-model="control.user.username" required autofocus>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="control.user.password" required>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <input type="submit" class="btn btn-lg btn-primary btn-block"  value="Login">
+    </form>
+
+  </div>
+</body>
+</html>
