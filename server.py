@@ -1,6 +1,7 @@
 from flask import Flask, send_from_directory, request
 from flask.ext.pymongo import PyMongo
 from flask.ext.api import status
+from flask import json
 from pymongo.errors import DuplicateKeyError
 import os
 
@@ -34,9 +35,10 @@ def login():
   pswd = req_json["password"]
   results = mongo.db.users.find({'username': user, 'password': pswd})
   if results.count() == 1:
-    return "Found..."
+    user_doc = results[0]
+    return json.dumps(user_doc['profile'])
   else:
-    return "Some problem", status.HTTP_400_BAD_REQUEST
+    return "", status.HTTP_400_BAD_REQUEST
 
 @app.route("/login", methods=['GET'])
 def login_get():

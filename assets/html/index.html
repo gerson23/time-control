@@ -8,10 +8,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/login.css">
 </head>
-<body ng-controller="MainController as control" style="padding-top: 70px;">
-  <!-- Login screen-->
-  <div class="container">
+<body ng-controller="MainController as control">
 
+  <!-- Login screen-->
+  <div class="container" ng-show="control.show_login">
     <uib-alert type="danger" ng-show="control.failed_login" close="control.failed_login=false">Login failed!</uib-alert>
     <uib-alert type="success" ng-show="control.suceed_login" close="control.suceed_login=false">Login succeed!</uib-alert>
     <form class="form-login" ng-submit="control.login()">
@@ -27,6 +27,56 @@
       </div>
       <input type="submit" class="btn btn-lg btn-primary btn-block"  value="Login">
     </form>
+  </div>
+
+  <!-- Home screen -->
+  <div id="wrapper" ng-show="control.show_home">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+          <a href="#">{{control.profile.name}}</a>
+        </li>
+        <li>
+        <a href="#">Dashboard</a>
+        </li>
+        <li>
+        <a href="#">Shortcuts</a>
+        </li>
+        <li>
+        <a href="#">Overview</a>
+        </li>
+        <li>
+        <a href="#">Events</a>
+        </li>
+        <li>
+        <a href="#">About</a>
+        </li>
+        <li>
+        <a href="#">Services</a>
+        </li>
+        <li>
+        <a href="#">Contact</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <h1>Simple Sidebar</h1>
+            <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+            <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
 
   </div>
 </body>
