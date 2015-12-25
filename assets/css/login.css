@@ -154,3 +154,11 @@ body {
   position: relative;
   margin-right: 0;
 }
+
+.btn-panel {
+  float: right;
+}
+
+.panel-line {
+  margin-bottom: 10px;
+}

@@ -27,6 +27,10 @@ def send_js(path=None):
 def send_css(path=None):
   return send_from_directory(CSS_DIR, path)
 
+@app.route('/view/<path:path>')
+def send_html(path=None):
+  return send_from_directory(HTML_DIR, path)
+
 # FUNCTION HANDLING
 @app.route("/login", methods=['POST'])
 def login():
@@ -40,11 +44,6 @@ def login():
   else:
     return "", status.HTTP_400_BAD_REQUEST
 
-@app.route("/login", methods=['GET'])
-def login_get():
-  mongo.db.users.insert_one({'username': 'test', "password": 'test123'})
-  return "Done!"
-
 @app.route("/add")
 def add():
   mongo.db.users.create_index("username", unique=True)
@@ -55,4 +54,5 @@ def add():
   return "See!"
 
 if __name__ == "__main__":
+  app.config.update(SEND_FILE_MAX_AGE_DEFAULT=0)
   app.run(debug=True)
