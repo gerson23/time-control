@@ -21,7 +21,11 @@ angular.module("MyApp", ["ui.bootstrap"])
 
     // Load page function
     vm.load = function(page) {
-      vm.page = "view/" + page + ".html"
+      vm.page = "view/" + page + ".html";
+      if (page == 'add_user') {
+        vm.newuser = null;
+        vm.failed_creation = false;
+      }
     };
 
     // Add user function
@@ -48,5 +52,13 @@ angular.module("MyApp", ["ui.bootstrap"])
           vm.failed_project = false;
         }
       });
+    };
+
+    // Logout function
+    vm.logout = function() {
+      vm.profile = null;
+      vm.show_login = true;
+      vm.show_home = false;
+      vm.suceed_login = false;
     };
   });
