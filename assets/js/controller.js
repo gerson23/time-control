@@ -23,4 +23,15 @@ angular.module("MyApp", ["ui.bootstrap"])
     vm.load = function(page) {
       vm.page = "view/" + page + ".html"
     };
+
+    // Add user function
+    vm.add_user = function() {
+      console.log(vm.newuser);
+      $http.post('user/add', vm.newuser).then(function(response) {
+        console.log("sucess");
+      }, function(response) {
+        console.log("failure");
+        console.log(response.data);
+      });
+    };
   });
