@@ -36,7 +36,10 @@
     <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <li class="sidebar-brand">
-          <a href="#">{{control.profile.name}}</a>
+        <a href="#">
+          <span class="glyphicon  glyphicon-user" aria-hidden="true"></span>
+          {{control.profile.name}}
+        </a>
         </li>
         <li>
           <a href="#" ng-click="control.load('dashboard')" aria-label="Left Align">
@@ -45,23 +48,19 @@
           </a>
         </li>
         <li>
-        <a href="#">Shortcuts</a>
+          <a href="#" ng-click="control.load('')" aria-label="Left Align">
+          <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+          Working Time
+          </a>
         </li>
+
         <li>
-        <a href="#">Overview</a>
+          <a href="#" ng-click="control.load('')" aria-label="Left Align">
+          <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+          Time Report
+          </a>
         </li>
-        <li>
-        <a href="#">Events</a>
-        </li>
-        <li>
-        <a href="#">About</a>
-        </li>
-        <li>
-        <a href="#" ng-click="control.load('add_user')">Add User</a>
-        </li>
-        <li>
-        <a href="#">Contact</a>
-        </li>
+ 
         <li>
           <a href="#" ng-click="control.logout()" aria-label="Left Align">
           <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
