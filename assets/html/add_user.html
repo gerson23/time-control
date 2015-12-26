@@ -1,5 +1,17 @@
 <h1>Creating new user</h1>
 
+<p>Enter all fields to create a new user. He/She will use a default password <code>timecontrol</code></p>
+
+<uib-alert type="danger" ng-show="control.failed_creation" close="control.failed_creation=false">
+Could not create a new user! Verify the user information.
+<div ng-show="control.failed_username">
+&bull; Username
+</div>
+<div ng-show="control.failed_project">
+&bull; Project
+</div>
+</uib-alert>
+
 <div>
   <form class="form-horizontal" ng-submit="control.add_user()">
     <div class="form-group">

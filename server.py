@@ -16,8 +16,8 @@ JS_DIR = os.path.join(STATIC_DIR, "js")
 CSS_DIR = os.path.join(STATIC_DIR, "css")
 
 # APP CONSTANTS
-INVALID_PROJECT = {'success': 'false', 'project': 1}
-INVALID_USERNAME = {'success': 'false', 'username': 1}
+INVALID_PROJECT = {'success': False, 'project': 1}
+INVALID_USERNAME = {'success': False, 'username': 1}
 DEFAULT_PASSWORD = "timecontrol"
 
 # STATIC FILES HANDLING

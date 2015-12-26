@@ -31,7 +31,22 @@ angular.module("MyApp", ["ui.bootstrap"])
         console.log("sucess");
       }, function(response) {
         console.log("failure");
-        console.log(response.data);
+        res = response.data;
+        vm.failed_creation = true;
+        // check username failure
+        if (res.username) {
+          vm.failed_username = true;
+        }
+        else {
+          vm.failed_username = false;
+        }
+        // check project failure
+        if (res.project) {
+          vm.failed_project = true;
+        }
+        else {
+          vm.failed_project = false;
+        }
       });
     };
   });
