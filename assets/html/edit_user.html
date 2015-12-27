@@ -1,0 +1,75 @@
+<h1>Editing user</h1>
+
+<p>Enter all fields to create a new user. He/She will use a default password <code>timecontrol</code></p>
+
+<!-- Alerts -->
+<uib-alert type="danger" ng-show="control.failed_deletion" close="control.failed_deletion=false">
+Could not delete the user! Verify the user information and system status.
+</uib-alert>
+<uib-alert type="success" ng-show="control.suceed_deletion" close="control.suceed_deletion=false">
+User successfully deleted!
+</uib-alert>
+
+
+<div>
+  <form class="form-inline" ng-submit="control.get_user()">
+    <div class="form-group">
+      <label form="inputRegister">Register #</label>
+      <input type="number" id="inputRegister" class="form-control" placeholder="Register Number to Load" ng-model="control.edituser.register" required>
+    </div>
+    <button type="submit" class="btn btn-default">Load User</button>
+  </form>
+  <hr>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label for="inputName" class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" id="inputName" class="form-control" placeholder="Complete Name" ng-model="control.edituser.name" required autofocus>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+      <div class="col-sm-10">
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" ng-model="control.edituser.username" readonly>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputRegister" class="col-sm-2 control-label">Registration #</label>
+      <div class="col-sm-10">
+        <input type="number" id="inputRegister" class="form-control" placeholder="Registration Number" ng-model="control.edituser.register" readonly>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputRole" class="col-sm-2 control-label">Role</label>
+      <div class="col-sm-10">
+        <input type="text" id="inputRole" class="form-control" placeholder="Role" ng-model="control.edituser.role" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputProject" class="col-sm-2 control-label">Project</label>
+      <div class="col-sm-10">
+        <input type="text" id="inputProject" class="form-control" placeholder="Project Name" ng-model="control.edituser.project" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputLevel" class="col-sm-2 control-label">User Level</label>
+      <div class="col-sm-10">
+        <select class="form-control" ng-model="control.edituser.level" required>
+          <option>Human Resource</option>
+          <option>Manager</option>
+          <option>Common Employee</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="btn-group btn-block">
+      <input type="submit" class="btn btn-lg btn-primary col-md-6" value="Save" ng-click="control.update_user()">
+      <input type="submit" class="btn btn-lg btn-primary col-md-6 btn-danger" value="Delete" ng-click="control.delete_user()">
+    </div>
+  </form>
+</div>

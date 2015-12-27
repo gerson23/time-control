@@ -30,13 +30,13 @@ angular.module("MyApp", ["ui.bootstrap"])
 
     // Add user function
     vm.add_user = function() {
-      console.log(vm.newuser);
       $http.post('user/add', vm.newuser).then(function(response) {
-        console.log("sucess");
+        vm.failed_creation = false;
+        vm.suceed_addition = true;
       }, function(response) {
-        console.log("failure");
         res = response.data;
         vm.failed_creation = true;
+        vm.suceed_addition = false;
         // check username failure
         if (res.username) {
           vm.failed_username = true;
@@ -51,6 +51,29 @@ angular.module("MyApp", ["ui.bootstrap"])
         else {
           vm.failed_project = false;
         }
+      });
+    };
+
+    // Get user function
+    vm.get_user = function() {
+      $http.post('user/get', vm.edituser).then(function(response) {
+        vm.edituser = response.data.profile;
+        vm.edituser.username = response.data.username;
+      }, function(response) {
+        console.log(response);
+      });
+    };
+
+    // Delete user function
+    vm.delete_user = function() {
+      data = {'username': vm.edituser.username};
+      $http.post('user/delete', data).then(function(response) {
+        vm.edituser = null;
+        vm.suceed_deletion = true;
+        vm.failed_deletion = false;
+      }, function(response) {
+        vm.suceed_deletion = false;
+        vm.failed_deletion = true;
       });
     };
 

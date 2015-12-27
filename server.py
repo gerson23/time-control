@@ -58,6 +58,11 @@ def login():
 
 @app.route("/user/add", methods=['POST'])
 def user_add():
+  """
+  Adds a new user to the database. It checes wheter the project is a valid one.
+  As username is a unique key on database scheme, it checks for
+  DuplicateKeyError exception.
+  """
   req_json = request.get_json()
 
   # Get user variables
@@ -87,6 +92,33 @@ def user_add():
     return json.dumps(INVALID_USERNAME), status.HTTP_400_BAD_REQUEST
   else:
     return ""
+
+@app.route("/user/get", methods=['POST'])
+def user_get():
+  """
+  Get an user given its register number.
+
+  Returns: A JSON object with the user information.
+  """
+  req_json = request.get_json()
+
+  result = mongo.db.users.find({'profile.register': req_json['register']})
+  if result.count() == 0:
+    return "", status.HTTP_400_BAD_REQUEST
+  elif result.count() == 1:
+    response = {'username': result[0]['username']}
+    response['profile'] = result[0]['profile']
+    return json.dumps(response)
+
+@app.route("/user/delete", methods=['POST'])
+def user_delete():
+  req_json = request.get_json()
+
+  result = mongo.db.users.delete_one(req_json)
+  if result.deleted_count == 1:
+    return ""
+  else:
+    return "", status.HTTP_400_BAD_REQUEST
 
 @app.route("/add")
 def add():
