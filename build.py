@@ -13,5 +13,7 @@ def initialize(project):
   project.set_property("dir_source_main_scripts", "timecontrol/")
 
   project.set_property("frosted_include_scripts", True)
+  project.set_property("frosted_break_build", True)
 
   project.set_property("flake8_include_scripts", True)
+  project.set_property("flake8_break_build", True)
