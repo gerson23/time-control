@@ -26,6 +26,9 @@ angular.module("MyApp", ["ui.bootstrap"])
         vm.newuser = null;
         vm.failed_creation = false;
       }
+      else if (page == 'edit_user') {
+        vm.edituser = {};
+      }
     };
 
     // Add user function
@@ -68,12 +71,32 @@ angular.module("MyApp", ["ui.bootstrap"])
     vm.delete_user = function() {
       data = {'username': vm.edituser.username};
       $http.post('user/delete', data).then(function(response) {
-        vm.edituser = null;
+        vm.edituser = {};
         vm.suceed_deletion = true;
         vm.failed_deletion = false;
       }, function(response) {
         vm.suceed_deletion = false;
         vm.failed_deletion = true;
+      });
+    };
+
+    // Update user function
+    vm.update_user = function() {
+      $http.post('user/update', vm.edituser).then(function(response) {
+        if (response.data.modified) {
+          vm.failed_update = false;
+          vm.succeed_half_update = false;
+          vm.succeed_update = true;
+        }
+        else {
+          vm.failed_update = false;
+          vm.succeed_half_update = true;
+          vm.succeed_update = false;
+        }
+      }, function(response) {
+        vm.failed_update = true;
+        vm.succeed_half_update = false;
+        vm.succeed_update = false;
       });
     };
 
@@ -84,4 +107,11 @@ angular.module("MyApp", ["ui.bootstrap"])
       vm.show_home = false;
       vm.suceed_login = false;
     };
+
+    // Clear edit user
+    vm.clean_edituser = function() {
+      register = vm.edituser.register;
+      vm.edituser = {};
+      vm.edituser.register = register;
+    }
   });

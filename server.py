@@ -18,6 +18,8 @@ CSS_DIR = os.path.join(STATIC_DIR, "css")
 # APP CONSTANTS
 INVALID_PROJECT = {'success': False, 'project': 1}
 INVALID_USERNAME = {'success': False, 'username': 1}
+MODIFIED_ENTRY = {'modified': True}
+NOT_MODIFIED_ENTRY = {'modified': False}
 DEFAULT_PASSWORD = "timecontrol"
 
 # STATIC FILES HANDLING
@@ -112,11 +114,34 @@ def user_get():
 
 @app.route("/user/delete", methods=['POST'])
 def user_delete():
+  """
+  Deletes a user given its username.
+  """
   req_json = request.get_json()
 
   result = mongo.db.users.delete_one(req_json)
   if result.deleted_count == 1:
     return ""
+  else:
+    return "", status.HTTP_400_BAD_REQUEST
+
+@app.route("/user/update", methods=['POST'])
+def user_update():
+  req_json = request.get_json()
+
+  print req_json
+  result = mongo.db.users.update_one({'username': req_json['username']},
+                                     {'$set': {
+                                      'profile.name': req_json['name'],
+                                      'profile.project': req_json['project'],
+                                      'profile.role': req_json['role'],
+                                      'profile.level': req_json['level']}})
+
+  if result.matched_count == 1:
+    if result.modified_count == 1:
+      return json.dumps(MODIFIED_ENTRY)
+    else:
+      return json.dumps(NOT_MODIFIED_ENTRY)
   else:
     return "", status.HTTP_400_BAD_REQUEST
 

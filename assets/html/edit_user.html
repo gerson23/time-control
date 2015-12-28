@@ -1,25 +1,31 @@
 <h1>Editing user</h1>
 
-<p>Enter all fields to create a new user. He/She will use a default password <code>timecontrol</code></p>
+<p>Enter the Register Number to load User profile. You can Edit his/her information or delete the user from the system.</p>
 
 <!-- Alerts -->
-<uib-alert type="danger" ng-show="control.failed_deletion" close="control.failed_deletion=false">
-Could not delete the user! Verify the user information and system status.
+<uib-alert type="danger" ng-show="control.failed_update" close="control.failed_update=false">
+Could not update the user! Verify the user information and system status.
 </uib-alert>
-<uib-alert type="success" ng-show="control.suceed_deletion" close="control.suceed_deletion=false">
-User successfully deleted!
+<uib-alert type="warning" ng-show="control.succeed_half_update" close="control.succeed_half_update=false">
+There is no information to be updated!
+</uib-alert>
+<uib-alert type="success" ng-show="control.succeed_update" close="control.succeed_update=false">
+User successfully updated!
 </uib-alert>
 
-
+<!-- Form -->
 <div>
+  <!-- Register number input -->
   <form class="form-inline" ng-submit="control.get_user()">
     <div class="form-group">
       <label form="inputRegister">Register #</label>
-      <input type="number" id="inputRegister" class="form-control" placeholder="Register Number to Load" ng-model="control.edituser.register" required>
+      <input type="number" id="inputRegister" class="form-control" placeholder="Register Number to Load" ng-model="control.edituser.register" ng-change="control.clean_edituser()" required>
     </div>
     <button type="submit" class="btn btn-default">Load User</button>
+    <button class="btn btn-default" ng-click="control.edituser={}">Clear User</button>
   </form>
   <hr>
+  <!-- Profile information -->
   <form class="form-horizontal">
     <div class="form-group">
       <label for="inputName" class="col-sm-2 control-label">Name</label>
