@@ -6,10 +6,10 @@ from pymongo.errors import DuplicateKeyError
 import os
 
 app = Flask(__name__, static_folder="assets")
-mongo = PyMongo(app)
+mongo = PyMongo(app
 
 # STATIC PATHS
-SERVER_PATH = os.getcwd()
+SERVER_PATH = os.path.dirname(os.getcwd())
 STATIC_DIR = os.path.join(SERVER_PATH, "assets")
 HTML_DIR = os.path.join(STATIC_DIR, "html")
 JS_DIR = os.path.join(STATIC_DIR, "js")
@@ -25,6 +25,7 @@ DEFAULT_PASSWORD = "timecontrol"
 # STATIC FILES HANDLING
 @app.route("/")
 def index():
+  print HTML_DIR
   return send_from_directory(HTML_DIR, "index.html")
 
 @app.route('/js/<path:path>')

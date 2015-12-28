@@ -8,6 +8,7 @@ I's a platform for time management of employees and managers.
 Requirements for running the system:
 * Python 2.7.x
 * Flask
+* Flask-API
 * Flask-PyMongo
 * MongoDB 3.x
 
@@ -18,6 +19,7 @@ pip install <module>
 
 # Install
 The installation is pretty straightforward:
+
 1. Install all requirements
 2. Start MongoDB' deamon
 3. Add the initial user to users collection on mongo:
