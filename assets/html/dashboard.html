@@ -1,5 +1,6 @@
 <h1>Dashboard</h1>
 
+<!-- Users panel -->
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Users</h3>
@@ -12,6 +13,19 @@
     <div class="panel-line">
       <label for="editUser">Edit an existent user or delete</label>
       <button class="btn btn-default btn-panel" id="editUser" ng-click="control.load('edit_user')">Edit User</button>
+    </div>
+  </div>
+</div>
+
+<!-- Projets panel -->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Projects</h3>
+  </div>
+  <div class="panel-body">
+    <div class="panel-line">
+      <label for="manageProjects">Manage reportable projects</label>
+      <button class="btn btn-default btn-panel" id="manageProjects" ng-click="control.load('projects')">Manage Projects</button>
     </div>
   </div>
 </div>

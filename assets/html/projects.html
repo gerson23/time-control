@@ -1,0 +1,37 @@
+<h1>Projects</h1>
+
+<p>Through this page you can manage the available projects on the company.</p>
+
+<!-- Alerts -->
+<uib-alert type="danger" ng-show="control.failed_creation" close="control.failed_creation=false">
+Could not create a new project! Verify the project information.
+</uib-alert>
+<uib-alert type="danger" ng-show="control.failed_deletion" close="control.failed_deletion=false">
+Could not remove the project! Verify the project information.
+</uib-alert>
+
+<uib-alert type="success" ng-show="control.suceed_addition" close="control.suceed_addition=false">
+Project successfully added to database!
+</uib-alert>
+<uib-alert type="success" ng-show="control.suceed_deletion" close="control.suceed_deletion=false">
+Project successfully removed from database!
+</uib-alert>
+
+<!-- Project entries -->
+<div class="well">
+  <div ng-repeat="project in control.projects">
+    {{project}}
+    <a href="" ng-click="control.delete_project(project)">
+      <span class="glyphicon glyphicon-remove btn-panel" aria-hidden="true"></span>
+    </a>
+  </div>
+  <hr>
+  <div class="input-group">
+    <input type="text" class="form-control" ng-model="control.newproject" placeholder="New project">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="submit" aria-label="Add" ng-click="control.add_project()">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    </span>
+  </div>
+</div>

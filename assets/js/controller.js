@@ -29,6 +29,9 @@ angular.module("MyApp", ["ui.bootstrap"])
       else if (page == 'edit_user') {
         vm.edituser = {};
       }
+      else if (page == 'projects') {
+        vm.get_projects();
+      }
     };
 
     // Add user function
@@ -114,4 +117,41 @@ angular.module("MyApp", ["ui.bootstrap"])
       vm.edituser = {};
       vm.edituser.register = register;
     }
+
+    // Get all projects
+    vm.get_projects = function() {
+      data = {};
+      $http.post('project/get', data).then(function(response) {
+        vm.projects = response.data.projects;
+      }, function(response) {
+        console.log(response);
+      });
+    };
+
+    // Add a new project
+    vm.add_project = function() {
+      data = {'name': vm.newproject}
+      $http.post('project/add', data).then(function(response) {
+        vm.get_projects();
+        vm.newproject = "";
+        vm.failed_creation = false;
+        vm.suceed_addition = true;
+      }, function(response) {
+        vm.failed_creation = true;
+        vm.suceed_addition = false;
+      });
+    };
+
+    // Remove an project
+    vm.delete_project = function(name) {
+      data = {'name': name};
+      $http.post('project/delete', data).then(function(response) {
+        vm.get_projects();
+        vm.suceed_deletion = true;
+        vm.failed_deletion = false;
+      }, function(response) {
+        vm.suceed_deletion = false;
+        vm.failed_deletion = true;
+      });
+    };
   });

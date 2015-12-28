@@ -127,9 +127,13 @@ def user_delete():
 
 @app.route("/user/update", methods=['POST'])
 def user_update():
+  """
+  Updates an user profile given its username.
+
+  Returns: a JSON with modified property in case of success.
+  """
   req_json = request.get_json()
 
-  print req_json
   result = mongo.db.users.update_one({'username': req_json['username']},
                                      {'$set': {
                                       'profile.name': req_json['name'],
@@ -145,9 +149,52 @@ def user_update():
   else:
     return "", status.HTTP_400_BAD_REQUEST
 
+@app.route("/project/get", methods=['POST'])
+def project_get():
+  """
+  Gets a project or a set of projects.
+
+  Returns: a JSON with an array of projects
+  """
+  req_json = request.get_json()
+
+  return_dict = {'projects':  []}
+  result = mongo.db.projects.find(req_json)
+  for doc in result:
+    return_dict['projects'].append(doc['name'])
+
+  return json.dumps(return_dict)
+
+@app.route("/project/add", methods=['POST'])
+def project_add():
+  """
+  Adds a new project to the database.
+  """
+  req_json = request.get_json()
+
+  try:
+    result = mongo.db.projects.insert_one({'name': req_json['name']})
+  except DuplicateKeyError:
+    return "", status.HTTP_400_BAD_REQUEST
+  else:
+    return ""
+
+@app.route("/project/delete", methods=['POST'])
+def project_delete():
+  """
+  Deletes a project given its name.
+  """
+  req_json = request.get_json()
+
+  result = mongo.db.projects.delete_one({'name': req_json['name']})
+  if result.deleted_count == 1:
+    return ""
+  else:
+    return "", status.HTTP_400_BAD_REQUEST
+
 @app.route("/add")
 def add():
-  mongo.db.users.create_index("username", unique=True)
+  mongo.db.projects.create_index("name", unique=True)
   try:
     mongo.db.users.insert_one({'username': 'test', "password": 'test123'})
   except DuplicateKeyError:
