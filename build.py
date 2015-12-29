@@ -10,6 +10,7 @@ default_task = "analyze"
 def initialize(project):
   project.verison = "0.1"
 
+  project.set_property("dir_source_main_python", "timecontrol/")
   project.set_property("dir_source_main_scripts", "timecontrol/")
 
   project.set_property("frosted_include_scripts", True)

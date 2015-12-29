@@ -1,0 +1,57 @@
+<h3>Reporting Time</h3>
+
+<p>Report worked time. Enter entry and exit times, as well break times.</p>
+
+<!-- Alerts -->
+<uib-alert type="danger" ng-show="control.invalid_hours" close="control.invalid_hours=false">Invalid hours range!</uib-alert>
+ 
+<!-- Date selectiors -->
+<div class="col-md-6">
+  <h4>Working Time</h4>
+  <div class="col-md-4">
+    <label for="entryDate" class="control-label">Entry Date</label>
+  </div>
+  <div class="input-group col-md-6">
+    <input type="date" class="form-control" id="entryDate" uib-datepicker-popup="{{control.date_format}}" ng-model="control.entry_date" is-open="control.opened" ng-required="true" close-text="Close" />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="control.opened=true"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+  </div>
+
+  <div class="col-md-4">
+    <label>Entry time</label>
+  </div>
+  <div class="col-md-6">
+    <uib-timepicker ng-model="control.entry_date" hour-step="1" minute-step="5" show-meridian="true"></uib-timepicker>
+  </div>
+
+  <div class="col-md-4">
+    <label for="endDate" class="control-label">End Date</label>
+  </div>
+  <div class="input-group col-md-6">
+    <input type="date" class="form-control" id="endDate" uib-datepicker-popup="{{control.date_format}}" ng-model="control.end_date" ng-change="control.update_worked()" is-open="control.opened_end" ng-required="true" close-text="Close" />
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-default" ng-click="control.opened_end=true"><i class="glyphicon glyphicon-calendar"></i></button>
+    </span>
+  </div>
+
+  <div class="col-md-4">
+    <label>End time</label>
+  </div>
+  <div class="col-md-6">
+    <uib-timepicker ng-model="control.end_date" ng-change="control.update_worked()" hour-step="1" minute-step="5" show-meridian="true"></uib-timepicker>
+  </div>
+
+  <div class="col-md-4">
+    <label>Worked Time</label>
+  </div>
+  <div class="col-md-4">
+      <input class="form-control" ng-model="control.worked_time.total_str" type="text" readonly>
+  </div>
+
+  <button class="btn btn-default" ng-click="control.add_working()">Submit Time</button>
+</div>
+
+<div class="col-md-6">
+  <h4>Break Time</h4>
+</div>

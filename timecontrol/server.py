@@ -2,14 +2,12 @@ from flask import Flask, send_from_directory, request
 from flask.ext.pymongo import PyMongo
 from flask.ext.api import status
 from flask import json
-from pymongo.error import DuplicateKeyError
+from pymongo.errors import DuplicateKeyError
+from datetime import datetime
 import os
 
-app = Flask(__name__, static_folder="assets")
-mongo = PyMongo(app)
-
 # STATIC PATHS
-SERVER_PATH = os.path.dirname(os.getcwd())
+SERVER_PATH = os.getcwd()
 STATIC_DIR = os.path.join(SERVER_PATH, "assets")
 HTML_DIR = os.path.join(STATIC_DIR, "html")
 JS_DIR = os.path.join(STATIC_DIR, "js")
@@ -21,10 +19,14 @@ INVALID_USERNAME = {'success': False, 'username': 1}
 MODIFIED_ENTRY = {'modified': True}
 NOT_MODIFIED_ENTRY = {'modified': False}
 DEFAULT_PASSWORD = "timecontrol"
+DATABASE_NAME = "timecontrol"
+
+# Initialize Flask and MongoDB driver
+app = Flask(DATABASE_NAME, static_folder="assets")
+mongo = PyMongo(app)
+
 
 # STATIC FILES HANDLING
-
-
 @app.route("/")
 def index():
     return send_from_directory(HTML_DIR, "index.html")
@@ -44,9 +46,8 @@ def send_css(path=None):
 def send_html(path=None):
     return send_from_directory(HTML_DIR, path)
 
+
 # FUNCTIONALITY HANDLING
-
-
 @app.route("/login", methods=['POST'])
 def login():
     """
@@ -160,6 +161,32 @@ def user_update():
             return json.dumps(NOT_MODIFIED_ENTRY)
     else:
         return "", status.HTTP_400_BAD_REQUEST
+
+
+@app.route("/user/report", methods=['POST'])
+def user_report():
+    req_json = request.get_json()
+
+    start_time = datetime.fromtimestamp(req_json['start_time']/1000.0)
+    end_time = datetime.fromtimestamp(req_json['end_time']/1000.0)
+
+    report_dict = {'start_time': start_time,
+                   'end_time': end_time}
+
+    result = mongo.db.users.find({'username': req_json['usermame']}, {'reports': 1})
+    if result.count() == 1:
+        doc = result[0]
+        if doc.has_key('reports'):
+            data = doc['reports']
+            for dat in data:
+                print dat['start_time']
+        else:
+            data = []
+        data.append(report_dict)
+        result = mongo.db.users.update_one({'username': req_json['usermame']}, {'$set': {'reports': data}})
+        print result
+
+    return ""
 
 
 @app.route("/project/get", methods=['POST'])

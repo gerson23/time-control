@@ -32,6 +32,11 @@ angular.module("MyApp", ["ui.bootstrap"])
       else if (page == 'projects') {
         vm.get_projects();
       }
+      else if (page == 'working_time') {
+        vm.entry_date = new Date();
+        vm.end_date = new Date();
+        vm.date_format = "dd-MMMM-yyyy";
+      }
     };
 
     // Add user function
@@ -152,6 +157,36 @@ angular.module("MyApp", ["ui.bootstrap"])
       }, function(response) {
         vm.suceed_deletion = false;
         vm.failed_deletion = true;
+      });
+    };
+
+    // Update worked_time after a time change
+    vm.update_worked = function() {
+      vm.worked_time = {};
+      vm.worked_time.total = vm.end_date - vm.entry_date;
+      if (vm.worked_time.total < 0) {
+        h = 0;
+        m = 0;
+        vm.invalid_hours = true;
+      }
+      else {
+        h = parseInt(vm.worked_time.total / 3600000);
+        m = parseInt((vm.worked_time.total % 3600000) / 60000);
+        vm.invalid_hours = false;
+      }
+      vm.worked_time.total_str = h.toString() + "h " + m.toString() + "min";
+    };
+
+    // Add working time
+    vm.add_working = function() {
+      data = {};
+      data.usermame = vm.user.username;
+      data.start_time = vm.entry_date.getTime();
+      data.end_time = vm.end_date.getTime();
+      $http.post('user/report', data).then(function(response) {
+        console.log(response);
+      }, function(response) {
+        console.log(response);
       });
     };
   });
