@@ -32,6 +32,10 @@ angular.module("MyApp", ["ui.bootstrap"])
       else if (page == 'projects') {
         vm.get_projects();
       }
+      else if (page == 'profile') {
+        console.log(vm.profile);
+        console.log(vm.user);
+      }
     };
 
     // Add user function
@@ -153,5 +157,28 @@ angular.module("MyApp", ["ui.bootstrap"])
         vm.suceed_deletion = false;
         vm.failed_deletion = true;
       });
+    };
+
+    // Change password
+    vm.change_pass = function() {
+      if(vm.newpass1 != vm.newpass2) {
+        vm.differ_pass = true;
+        vm.newpass1 = "";
+        vm.newpass2 = "";
+      }
+      else {
+        data = {}
+        data.username = vm.user.username;
+        data.oldpass = vm.oldpass;
+        data.newpass = vm.newpass1;
+        $http.post('user/psw', data).then(function(response) {
+          vm.succed_pass = true;
+          vm.newpass1 = "";
+          vm.newpass2 = "";
+          vm.oldpass = "";
+        }, function(response) {
+          console.log(response);
+        });
+      }
     };
   });
