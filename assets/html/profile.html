@@ -1,0 +1,33 @@
+<h1>Profile</h1>
+
+<p>Change Password</p>
+
+<uib-alert type="danger" ng-show="control.differ_pass" close="control.differ_pass=false">Passwords are not equal!</uib-alert>
+<uib-alert type="success" ng-show="control.succed_pass" close="control.succed_pass=false">Password successfully changed!</uib-alert>
+
+<div>
+  <form class="form-horizontal" ng-submit="control.change_pass()">
+    <div class="form-group">
+      <label for="oldPass" class="col-md-3">Old password</label>
+      <div class="col-md-4">
+        <input id="oldPass" ng-model="control.oldpass" type="password" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="newPass1" class="col-md-3">New password</label>
+      <div class="col-md-4">
+        <input id="newPass1" ng-model="control.newpass1" type="password" class="form-control" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="newPass2" class="col-md-3">Repeat new password</label>
+      <div class="col-md-4">
+        <input id="newPass2" ng-model="control.newpass2" type="password" class="form-control" required>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" type="submit">
+      Change Password
+    </button>
+  </form>
+</div>

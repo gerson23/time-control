@@ -1,8 +1,8 @@
 # Time Control
-I's a platform for time management of employees and managers.
+It's a platform for time management of employees and managers.
 
 # Current Build Status
-[![Build Status](https://travis-ci.org/gerson23/time-control.svg)](https://travis-ci.org/gerson23/time-control)
+[![Build Status](https://travis-ci.org/gerson23/time-control.svg&branch=master)](https://travis-ci.org/gerson23/time-control)
 
 # Requirements
 Requirements for running the system:

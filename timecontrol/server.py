@@ -2,14 +2,14 @@ from flask import Flask, send_from_directory, request
 from flask.ext.pymongo import PyMongo
 from flask.ext.api import status
 from flask import json
-from pymongo.error import DuplicateKeyError
+from pymongo.errors import DuplicateKeyError
 import os
 
 app = Flask(__name__, static_folder="assets")
 mongo = PyMongo(app)
 
 # STATIC PATHS
-SERVER_PATH = os.path.dirname(os.getcwd())
+SERVER_PATH = os.getcwd()
 STATIC_DIR = os.path.join(SERVER_PATH, "assets")
 HTML_DIR = os.path.join(STATIC_DIR, "html")
 JS_DIR = os.path.join(STATIC_DIR, "js")
@@ -158,6 +158,25 @@ def user_update():
             return json.dumps(MODIFIED_ENTRY)
         else:
             return json.dumps(NOT_MODIFIED_ENTRY)
+    else:
+        return "", status.HTTP_400_BAD_REQUEST
+
+
+@app.route("/user/psw", methods=['POST'])
+def user_password():
+    req_json = request.get_json()
+
+    result = mongo.db.users.find({'username': req_json['username'],
+                                  'password': req_json['oldpass']})
+    if result.count() != 1:
+        return "", status.HTTP_400_BAD_REQUEST
+
+    result = mongo.db.users.update_one({'username': req_json['username']},
+                                       {'$set': {
+                                        'password': req_json['newpass']}})
+
+    if result.matched_count == 1:
+        return ""
     else:
         return "", status.HTTP_400_BAD_REQUEST
 
