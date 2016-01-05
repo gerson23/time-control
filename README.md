@@ -6,7 +6,7 @@ It's a platform for time management of employees and managers.
 
 # Requirements
 Requirements for running the system:
-* Python 2.7.x
+* Python 3.5.x
 * Flask
 * Flask-API
 * Flask-PyMongo
