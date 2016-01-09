@@ -76,15 +76,17 @@ angular.module("MyApp", ["ui.bootstrap"])
 
     // Delete user function
     vm.delete_user = function() {
-      data = {'username': vm.edituser.username};
-      $http.post('user/delete', data).then(function(response) {
-        vm.edituser = {};
-        vm.suceed_deletion = true;
-        vm.failed_deletion = false;
-      }, function(response) {
-        vm.suceed_deletion = false;
-        vm.failed_deletion = true;
-      });
+      if(confirm("Are you sure you want to delete this user?")) {
+        data = {'username': vm.edituser.username};
+        $http.post('user/delete', data).then(function(response) {
+          vm.edituser = {};
+          vm.suceed_deletion = true;
+          vm.failed_deletion = false;
+        }, function(response) {
+          vm.suceed_deletion = false;
+          vm.failed_deletion = true;
+        });
+      }
     };
 
     // Update user function
