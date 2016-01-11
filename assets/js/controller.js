@@ -33,9 +33,20 @@ angular.module("MyApp", ["ui.bootstrap"])
         vm.get_projects();
       }
       else if (page == 'working_time') {
-        vm.entry_date = new Date();
-        vm.end_date = new Date();
+        var today = new Date();
+        // Set time to 8:00:000 AM
+        today.setMilliseconds(0);
+        today.setSeconds(0);
+        today.setMinutes(0);
+        today.setHours(8);
+        vm.entry_date = new Date(today);
+        vm.end_date = new Date(today);
+        vm.selected_date = new Date(today);
         vm.date_format = "dd-MMMM-yyyy";
+        //vm.get_working();
+        vm.worked_time = {};
+        vm.worked_time.comment = "";
+        vm.get_projects();
       }
     };
 
@@ -162,7 +173,6 @@ angular.module("MyApp", ["ui.bootstrap"])
 
     // Update worked_time after a time change
     vm.update_worked = function() {
-      vm.worked_time = {};
       vm.worked_time.total = vm.end_date - vm.entry_date;
       if (vm.worked_time.total < 0) {
         h = 0;
@@ -181,12 +191,45 @@ angular.module("MyApp", ["ui.bootstrap"])
     vm.add_working = function() {
       data = {};
       data.usermame = vm.user.username;
+      // get miliseconds from epoch
       data.start_time = vm.entry_date.getTime();
       data.end_time = vm.end_date.getTime();
-      $http.post('user/report', data).then(function(response) {
+      data.total = vm.worked_time.total;
+      data.project = vm.worked_time.project;
+      data.comment = vm.worked_time.comment;
+      $http.post('user/report/add', data).then(function(response) {
         console.log(response);
       }, function(response) {
         console.log(response);
       });
+    };
+
+    vm.get_working = function() {
+      $http.post('user/report/get', {'username': vm.user.username}).then(function(response) {
+        vm.reports = response.data.reports;
+        vm.update_date();
+      }, function(response) {
+        console.log("ERROU");
+      });
+    };
+
+    vm.update_date = function() {
+      // updating start date and end date to selected day
+      vm.entry_date = new Date(vm.selected_date);
+      vm.end_date = new Date(vm.selected_date);
+      vm.update_worked();
+
+      // verify reported stuff to show
+      vm.working_vector = [];
+      console.log(vm.reports)
+      for(i=0; i < vm.reports.length; i++) {
+        report = vm.reports[i];
+        date = new Date(report.start_time);
+        if((date.getFullYear() == vm.selected_date.getFullYear()) &&
+           (date.getMonth() == vm.selected_date.getMonth()) &&
+           (date.getDate() == vm.selected_date.getDate())) {
+             vm.working_vector.push(report);
+           }
+      }
     };
   });

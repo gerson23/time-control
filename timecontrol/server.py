@@ -163,31 +163,47 @@ def user_update():
         return "", status.HTTP_400_BAD_REQUEST
 
 
-@app.route("/user/report", methods=['POST'])
+@app.route("/user/report/add", methods=['POST'])
 def user_report():
     req_json = request.get_json()
 
-    start_time = datetime.fromtimestamp(req_json['start_time']/1000.0)
-    end_time = datetime.fromtimestamp(req_json['end_time']/1000.0)
+    print(req_json)
+    #start_time = datetime.fromtimestamp(req_json['start_time']/1000.0)
+    #end_time = datetime.fromtimestamp(req_json['end_time']/1000.0)
 
-    report_dict = {'start_time': start_time,
-                   'end_time': end_time}
+    report_dict = {'start_time': req_json['start_time'],
+                   'end_time': req_json['end_time'],
+                   'total': req_json['total'],
+                   'project': req_json['project'],
+                   'comment': req_json['comment']}
 
     result = mongo.db.users.find({'username': req_json['usermame']}, {'reports': 1})
     if result.count() == 1:
         doc = result[0]
-        if doc.has_key('reports'):
+        if 'reports' in doc:
             data = doc['reports']
-            for dat in data:
-                print dat['start_time']
         else:
             data = []
         data.append(report_dict)
         result = mongo.db.users.update_one({'username': req_json['usermame']}, {'$set': {'reports': data}})
-        print result
+        print(result)
 
     return ""
 
+@app.route("/user/report/get", methods=['POST'])
+def user_report_get():
+    req_json = request.get_json()
+    print(req_json)
+    result = mongo.db.users.find({'username': req_json['username']}, {'reports': 1})
+    if result.count() == 1:
+        doc = result[0]
+        if 'reports' in doc:
+            data = doc['reports']
+        else:
+            data = []
+        return json.dumps({'reports': data})
+    else:
+        return "", status.HTTP_400_BAD_REQUEST
 
 @app.route("/project/get", methods=['POST'])
 def project_get():
